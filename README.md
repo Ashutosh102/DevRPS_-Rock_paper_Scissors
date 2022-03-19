@@ -1,2 +1,2 @@
-# DevRPS_-Rock_paper_Scissors
-Rock  paper scissor frontend mentor challenge
+# rock-paper-scissors
+A simple rock paper scissors game which can be played with computer.

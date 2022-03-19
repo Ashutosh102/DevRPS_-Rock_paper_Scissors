@@ -1,0 +1,2213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #141539;
+    background-image: linear-gradient( #1F3756, #141539);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.wrapper {
+    height: 100%;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: auto;
+}
+
+.score-panel {
+    grid-column: 4/10;
+    margin-top: 5%;
+    border: 3px solid #606E85;
+    border-radius: 8px;
+    background: inherit;
+    padding: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+}
+
+.score-title {
+    text-align: left;
+    margin: 5px 0 5px 10px;
+    text-transform: uppercase;
+    font-weight: 700 bold;
+    line-height: 30px;
+    color: white;
+}
+
+.scoreboard {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-basis: 100px;
+    margin: 5px 10px 5px 10px;
+    border-radius: 7px;
+    padding: 1%;
+}
+
+.score-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #2A46C0;
+}
+
+.score-value h1 {
+    font-size: 48px;
+    color: #3b4363;
+}
+
+.game-options {
+    min-height: 400px;
+    background: url(images/bg-triangle.svg) center no-repeat content-box;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    transition: all 0.3s;
+    padding: 10px;
+}
+
+.game-options.active {
+    background: inherit;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.paper {
+    background: linear-gradient(#5671f5, #4865f4) !important;
+    box-shadow: inset -2px -10px 2px 2px rgba(0, 0, 0, .25);
+}
+
+.scissors {
+    background: linear-gradient(#f2a71c, #e6a014) !important;
+    box-shadow: inset -2px -10px 2px 2px rgba(0, 0, 0, .25);
+}
+
+.rock {
+    background: linear-gradient(#de3f5c, #da2f4e) !important;
+    box-shadow: inset -2px -10px 2px 2px rgba(0, 0, 0, .25);
+}
+
+#paper,
+#scissors,
+#rock {
+    background: rgb(129, 123, 123);
+    border-radius: 50%;
+    background: linear-gradient(#5671f5, #4865f4);
+    box-shadow: inset -2px -10px 2px 2px rgba(0, 0, 0, .25);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#scissors {
+    background: linear-gradient(#f2a71c, #e6a014);
+}
+
+#rock {
+    background: linear-gradient(#de3f5c, #da2f4e);
+}
+
+.result-container>div {
+    cursor: auto;
+}
+
+.result-container.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#player,
+#computer {
+    border-radius: 50%;
+    box-shadow: inset -2px -10px 2px 2px rgba(0, 0, 0, .25);
+    position: relative;
+    cursor: pointer;
+    background: linear-gradient(#5671f5, #4865f4);
+}
+
+#computer {
+    background: linear-gradient(#f2a71c, #e6a014);
+}
+
+#game-1,
+#game-2 {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    width: 80%;
+    height: 80%;
+    padding: 15px;
+    box-shadow: inset 0 5px 2px 2px rgba(0, 0, 0, .25);
+}
+
+.computer h1,
+.player h1 {
+    letter-spacing: 1px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.player,
+.computer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    text-transform: uppercase;
+}
+
+.invisible {
+    background: #131336;
+    border-radius: 50%;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotateX(0);
+    }
+    to {
+        transform: rotateX(359deg);
+    }
+}
+
+.invisible>div {
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.invisible.active>div {
+    opacity: 1;
+    animation: rotation 1s backwards;
+}
+
+.result-title {
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.result-title.active {
+    display: flex;
+}
+
+.player-status h1,
+.computer-status h1 {
+    text-align: center;
+}
+
+.play-again {
+    background: #ffffff;
+    color: #3b4363;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#status {
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+.effect-left::before {
+    content: "";
+    background: radial-gradient(#2C3B5A 38%, #293857 38% 50%, #233455 50% 100%);
+    z-index: -3;
+    border-radius: 50%;
+    position: absolute;
+    margin: 1.5rem;
+}
+
+.effect-right::before {
+    content: "";
+    background: radial-gradient(#2C3B5A 38%, #293857 38% 50%, #233455 50% 100%);
+    z-index: -3;
+    border-radius: 50%;
+    position: absolute;
+    margin: 1.5rem;
+}
+
+span {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    width: 78%;
+    height: 78%;
+    padding: 15px;
+    box-shadow: inset 0 5px 2px 2px rgba(0, 0, 0, .25);
+}
+
+.rules {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    letter-spacing: 3px;
+    cursor: pointer;
+    background: inherit;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.rules-overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.rules-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.rules-container {
+    background: #ffffff;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    border-radius: 18px;
+}
+
+.rules-title {
+    flex-basis: 75%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 15%;
+    font-size: 44px;
+    text-transform: uppercase;
+    color: #3b4363;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 20px;
+}
+
+.cross-btn {
+    flex-basis: 25%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cross-btn img {
+    width: 30%;
+    cursor: pointer;
+}
+
+.rules-img {
+    height: 85%;
+    padding: 10px;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rules-img img {
+    width: 90%;
+}
+
+.attribution {
+    color: #ffffff;
+    grid-row: 4;
+    grid-column: 4/10;
+    font-size: 13px;
+    padding: 15px;
+    text-align: center;
+}
+
+.attribution a {
+    color: #de3f5c;
+}
+
+
+/* -------------------Media Queries---------------------------*/
+
+@media only screen and (max-width:341px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 80px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 70%;
+        margin-top: 40px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 110px;
+        height: 110px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(15px, 50px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-35px, 50px);
+    }
+    #rock {
+        transform: translateX(-10px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(15px, 50px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-35px, 50px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(-10px) !important
+    }
+    span {
+        transform: translate(13px, 13px);
+    }
+    span img {
+        width: 70%;
+        transform: translate(7px, 7px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 50px;
+    }
+    #player,
+    #computer {
+        width: 120px;
+        height: 120px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(13px, 12px);
+    }
+    #game-1 img,
+    #game-2 img {
+        transform: translate(8px, 10px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 200px;
+        flex-basis: 50%;
+        position: relative;
+    }
+    .invisible {
+        width: 120px;
+        height: 120px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 16px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 70%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .effect-right::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .rules {
+        grid-column: 5/9;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 30px;
+    }
+    .rules-title {
+        font-size: 30px;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 12px;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width:342px) and (max-width:360px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 80px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 70%;
+        margin-top: 40px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 110px;
+        height: 110px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(10px, 35px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-10px, 35px);
+    }
+    #rock {
+        transform: translateX(0px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(10px, 35px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-10px, 35px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(0px) !important
+    }
+    span {
+        transform: translate(13px, 13px);
+    }
+    span img {
+        width: 70%;
+        transform: translate(7px, 7px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 50px;
+    }
+    #player,
+    #computer {
+        width: 120px;
+        height: 120px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(13px, 12px);
+    }
+    #game-1 img,
+    #game-2 img {
+        transform: translate(8px, 10px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 200px;
+        flex-basis: 50%;
+        position: relative;
+    }
+    .invisible {
+        width: 120px;
+        height: 120px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 16px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 70%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .effect-right::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .rules {
+        grid-column: 5/9;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 30px;
+    }
+    .rules-title {
+        font-size: 30px;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 12px;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width:361px) and (max-width:414px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 90px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 70%;
+        margin-top: 40px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 110px;
+        height: 110px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(15px, 30px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-20px, 30px);
+    }
+    #rock {
+        transform: translate(-3px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(15px, 30px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-20px, 30px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(-3px, 8px) !important
+    }
+    span {
+        transform: translate(13px, 13px);
+    }
+    span img {
+        width: 70%;
+        transform: translate(7px, 7px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 50px;
+    }
+    #player,
+    #computer {
+        width: 120px;
+        height: 120px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(13px, 12px);
+    }
+    #game-1 img,
+    #game-2 img {
+        transform: translate(8px, 10px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 200px;
+        flex-basis: 50%;
+    }
+    .invisible {
+        width: 120px;
+        height: 120px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 16px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 55%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .effect-right::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .rules {
+        grid-column: 5/9;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 30px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 80%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 12px;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width:415px) and (max-width:456px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 90px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 60%;
+        margin-top: 40px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 110px;
+        height: 110px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(15px, 30px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-20px, 30px);
+    }
+    #rock {
+        transform: translate(-3px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(15px, 30px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-20px, 30px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(-3px, 8px) !important
+    }
+    span {
+        transform: translate(13px, 13px);
+    }
+    span img {
+        width: 70%;
+        transform: translate(7px, 7px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 50px;
+    }
+    #player,
+    #computer {
+        width: 120px;
+        height: 120px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(13px, 12px);
+    }
+    #game-1 img,
+    #game-2 img {
+        transform: translate(8px, 10px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 200px;
+        flex-basis: 50%;
+    }
+    .invisible {
+        width: 120px;
+        height: 120px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 16px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 55%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .effect-right::before {
+        height: 300px;
+        width: 300px;
+        transform: translate(-38%, -38%);
+    }
+    .rules {
+        grid-column: 5/9;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 30px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 80%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 12px;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width:457px) and (max-width:580px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 90px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 55%;
+        margin-top: 40px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 130px;
+        height: 130px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(15px, 10px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-15px, 10px);
+    }
+    #rock {
+        transform: translate(-3px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(15px, 10px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-15px, 10px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(-3px, 8px) !important
+    }
+    span {
+        transform: translate(15px, 14px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 150px;
+        height: 150px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(15px, 14px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 65%;
+        transform: translate(12px, 15px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 50%;
+    }
+    .invisible {
+        width: 150px;
+        height: 150px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 20px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 45%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-37%, -37%);
+    }
+    .effect-right::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-37%, -37%);
+    }
+    .rules {
+        grid-column: 5/9;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 80%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width:581px) and (max-width:682px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 90px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 50%;
+        margin-top: 50px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 140px;
+        height: 140px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(15px, -10px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-15px, -10px);
+    }
+    #rock {
+        transform: translate(-3px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(15px, -10px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-13px, -10px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(-3px, 8px) !important
+    }
+    span {
+        transform: translate(16px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 160px;
+        height: 160px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(16px, 16px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 50%;
+    }
+    .invisible {
+        width: 160px;
+        height: 160px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 20px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 40%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-35%, -35%);
+    }
+    .effect-right::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-35%, -35%);
+    }
+    .rules {
+        grid-column: 5/9;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 80%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width:683px) and (max-width:761px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 90px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 45%;
+        margin-top: 50px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 140px;
+        height: 140px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(15px, 0px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-15px, 0px);
+    }
+    #rock {
+        transform: translate(-3px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(15px, 0px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-15px, 0px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(-3px, 8px) !important
+    }
+    span {
+        transform: translate(16px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 160px;
+        height: 160px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(16px, 16px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 50%;
+    }
+    .invisible {
+        width: 160px;
+        height: 160px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 20px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 40%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-35%, -35%);
+    }
+    .effect-right::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-35%, -35%);
+    }
+    .rules {
+        grid-column: 5/9;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 80%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width:762px) and (max-width:846px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 30px;
+    }
+    .scoreboard {
+        flex-basis: 100px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 40%;
+        margin-top: 50px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 140px;
+        height: 140px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(30px, 5px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-18px, 5px);
+    }
+    #rock {
+        transform: translate(10px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(30px, 5px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-18px, 5px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(10px, 8px) !important
+    }
+    span {
+        transform: translate(16px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 160px;
+        height: 160px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(16px, 16px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 50%;
+    }
+    .invisible {
+        width: 160px;
+        height: 160px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 20px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 35%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-35%, -35%);
+    }
+    .effect-right::before {
+        height: 380px;
+        width: 380px;
+        transform: translate(-35%, -35%);
+    }
+    .rules {
+        grid-column: 6/8;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 70%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+    .cross-btn img {
+        width: 25%;
+    }
+}
+
+@media only screen and (min-width:847px) and (max-width:980px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 37px;
+    }
+    .scoreboard {
+        flex-basis: 100px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 35%;
+        margin-top: 70px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 140px;
+        height: 140px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(60px, -10px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-20px, -10px);
+    }
+    #rock {
+        transform: translate(25px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(60px, -10px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-20px, -10px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(25px, 8px) !important
+    }
+    span {
+        transform: translate(16px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 160px;
+        height: 160px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(16px, 16px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 50%;
+    }
+    .invisible {
+        width: 160px;
+        height: 160px;
+    }
+    .result-title {
+        flex-basis: 100%;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 22px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 25%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 400px;
+        width: 400px;
+        transform: translate(-36%, -36%);
+    }
+    .effect-right::before {
+        height: 400px;
+        width: 400px;
+        transform: translate(-36%, -36%);
+    }
+    .rules {
+        grid-column: 6/8;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 70%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+    .cross-btn img {
+        width: 25%;
+    }
+}
+
+@media only screen and (min-width:981px) and (max-width:1100px) {
+    .score-panel {
+        grid-column: 2/12;
+    }
+    .score-title h1 {
+        font-size: 40px;
+    }
+    .scoreboard {
+        flex-basis: 100px;
+    }
+    .game-options {
+        grid-column: 1/13;
+        grid-row: 2;
+        background-size: 30%;
+        margin-top: 70px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 140px;
+        height: 140px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(100px, -5px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-45px, -5px);
+    }
+    #rock {
+        transform: translate(30px, 8px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(100px, -5px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-45px, -5px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(30px, 8px) !important
+    }
+    span {
+        transform: translate(16px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 160px;
+        height: 160px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(16px, 16px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 33.33%;
+    }
+    .player {
+        order: 1;
+    }
+    .computer {
+        order: 3
+    }
+    .invisible {
+        width: 160px;
+        height: 160px;
+    }
+    .result-title {
+        flex-basis: 33.33%;
+        order: 2;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 22px;
+    }
+    .play-again {
+        font-size: 18px;
+        margin-top: 20px;
+        width: 70%;
+    }
+    #status {
+        font-size: 45px;
+    }
+    .effect-left::before {
+        height: 400px;
+        width: 400px;
+        transform: translate(-36%, -36%);
+    }
+    .effect-right::before {
+        height: 400px;
+        width: 400px;
+        transform: translate(-36%, -36%);
+    }
+    .rules {
+        grid-column: 10/12;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 70%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+    .cross-btn img {
+        width: 25%;
+    }
+}
+
+@media only screen and (min-width:1101px) and (max-width:1200px) {
+    .score-panel {
+        grid-column: 4/10;
+    }
+    .score-title h1 {
+        font-size: 40px;
+    }
+    .scoreboard {
+        flex-basis: 100px;
+    }
+    .game-options {
+        grid-column: 3/11;
+        grid-row: 2;
+        background-size: 40%;
+        margin-top: 70px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 150px;
+        height: 150px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(15px, 0px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-15px, 0px);
+    }
+    #rock {
+        transform: translate(0px, 0px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(15px, 0px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-15px, 0px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(0px, 0px) !important
+    }
+    span {
+        transform: translate(17px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        grid-column: 1/13;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 180px;
+        height: 180px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(18px, 18px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 33.33%;
+    }
+    .player {
+        order: 1;
+    }
+    .computer {
+        order: 3
+    }
+    .invisible {
+        width: 180px;
+        height: 180px;
+    }
+    .result-title {
+        flex-basis: 33.33%;
+        order: 2;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 22px;
+    }
+    .play-again {
+        font-size: 22px;
+        margin-top: 20px;
+        width: 70%;
+    }
+    #status {
+        font-size: 55px;
+    }
+    .effect-left::before {
+        height: 500px;
+        width: 500px;
+        transform: translate(-37%, -37%);
+    }
+    .effect-right::before {
+        height: 500px;
+        width: 500px;
+        transform: translate(-37%, -37%);
+    }
+    .rules {
+        grid-column: 11/12;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 70%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+    .cross-btn img {
+        width: 25%;
+    }
+}
+
+@media only screen and (min-width:1201px) and (max-width:1300px) {
+    .score-panel {
+        grid-column: 4/10;
+    }
+    .score-title h1 {
+        font-size: 40px;
+    }
+    .scoreboard {
+        flex-basis: 100px;
+    }
+    .game-options {
+        grid-column: 3/11;
+        grid-row: 2;
+        background-size: 40%;
+        margin-top: 100px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 150px;
+        height: 150px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(25px, -30px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-10px, -30px);
+    }
+    #rock {
+        transform: translate(10px, 10px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(25px, -30px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-10px, -30px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(10px, 10px) !important
+    }
+    span {
+        transform: translate(17px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        grid-column: 3/11;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 180px;
+        height: 180px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(18px, 18px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 33.33%;
+    }
+    .player {
+        order: 1;
+    }
+    .computer {
+        order: 3
+    }
+    .invisible {
+        width: 180px;
+        height: 180px;
+    }
+    .result-title {
+        flex-basis: 33.33%;
+        order: 2;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 22px;
+    }
+    .play-again {
+        font-size: 22px;
+        margin-top: 20px;
+        width: 90%;
+    }
+    #status {
+        font-size: 55px;
+    }
+    .effect-left::before {
+        height: 500px;
+        width: 500px;
+        transform: translate(-37%, -37%);
+    }
+    .effect-right::before {
+        height: 500px;
+        width: 500px;
+        transform: translate(-37%, -37%);
+    }
+    .rules {
+        grid-column: 11/12;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 70%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+    .cross-btn img {
+        width: 25%;
+    }
+}
+
+@media only screen and (min-width:1301px) {
+    .score-panel {
+        grid-column: 4/10;
+    }
+    .score-title h1 {
+        font-size: 40px;
+    }
+    .scoreboard {
+        flex-basis: 100px;
+    }
+    .game-options {
+        grid-column: 3/11;
+        grid-row: 2;
+        background-size: 40%;
+        margin-top: 70px;
+    }
+    #paper,
+    #scissors,
+    #rock {
+        width: 150px;
+        height: 150px;
+        grid-column: 2;
+    }
+    #paper {
+        transform: translate(25px, -30px);
+    }
+    #scissors {
+        grid-column: 4;
+        transform: translate(-10px, -30px);
+    }
+    #rock {
+        transform: translate(10px, 10px);
+        grid-column: 3;
+        grid-row: 2;
+    }
+    #paper:active {
+        transform: scale(0.9) translate(25px, -30px)!important;
+    }
+    #scissors:active {
+        transform: scale(0.9) translate(-10px, -30px)!important;
+    }
+    #rock:active {
+        transform: scale(0.9) translate(10px, 10px) !important
+    }
+    span {
+        transform: translate(17px, 15px);
+    }
+    span img {
+        width: 60%;
+        transform: translate(14px, 16px);
+    }
+    .result-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        grid-column: 3/11;
+        grid-row: 2;
+        flex-wrap: wrap;
+        padding: 5px;
+        z-index: 2;
+        opacity: 0;
+        pointer-events: none;
+    }
+    .result-container.load {
+        justify-content: space-evenly;
+        margin-top: 40px;
+    }
+    #player,
+    #computer {
+        width: 180px;
+        height: 180px;
+    }
+    #game-1,
+    #game-2 {
+        width: 80%;
+        height: 80%;
+        transform: translate(18px, 18px);
+    }
+    #game-1 img,
+    #game-2 img {
+        width: 70%;
+        transform: translate(14px, 14px);
+    }
+    .computer h1,
+    .player h1 {
+        font-size: 24px;
+    }
+    .player,
+    .computer {
+        height: 250px;
+        flex-basis: 33.33%;
+    }
+    .player {
+        order: 1;
+    }
+    .computer {
+        order: 3
+    }
+    .invisible {
+        width: 180px;
+        height: 180px;
+    }
+    .result-title {
+        flex-basis: 33.33%;
+        order: 2;
+    }
+    .player-status h1,
+    .computer-status h1 {
+        font-size: 22px;
+    }
+    .play-again {
+        font-size: 22px;
+        margin-top: 20px;
+        width: 90%;
+    }
+    #status {
+        font-size: 55px;
+    }
+    .effect-left::before {
+        height: 500px;
+        width: 500px;
+        transform: translate(-37%, -37%);
+    }
+    .effect-right::before {
+        height: 500px;
+        width: 500px;
+        transform: translate(-37%, -37%);
+    }
+    .rules {
+        grid-column: 11/12;
+        grid-row: 3;
+        font-size: 19px;
+        margin-top: 60px;
+    }
+    .rules-title {
+        font-size: 37px;
+    }
+    .rules-img img {
+        width: 70%;
+    }
+    .attribution {
+        grid-column: 1/13;
+        font-size: 13px;
+        margin-top: 40px;
+    }
+    .cross-btn img {
+        width: 25%;
+    }
+}
